@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../GameStore.Api.Test/GameStore.Api.Test.csproj" />
+  <Project Path="GameStore.Api.csproj" />
+</Solution>
