@@ -16,18 +16,20 @@ A small game catalog API built with **ASP.NET Core Minimal APIs**, backed by **S
 
 ```
 GameStore/
-├── GameStore.sln
-├── Directory.Packages.props       # centrally managed package versions (all projects)
+├──
 ├── GameStore.Api/                 # the API project
 │   ├── Data/                      # DbContext, migrations
 │   ├── Dtos/                      # request/response DTOs
 │   ├── Endpoints/                 # minimal API endpoint groups (e.g. GamesEndpoints)
 │   ├── Models/                    # entities (Game, Genre)
+│   ├── GameStore.slnx
+│   ├── Directory.Packages.props   # project managed package versions
 │   └── GameStore.Api.csproj
 └── GameStore.Api.Test/            # test project
     ├── GameStoreTestBase.cs       # shared SQLite in-memory DB setup/teardown
     ├── GameStoreDataBuilder.cs    # test data seeding helpers
     ├── Endpoints/                 # tests per endpoint group
+    ├── Directory.Packages.props   # project managed package versions
     └── GameStore.Api.Test.csproj
 ```
 
