@@ -8,7 +8,7 @@ public class GameStoreSeeding
     public static async Task<Genre> SeedGenreAsync(GameStoreContext db, string name = "Action")
     {
         var genre = new Genre { Name = name };
-        db.Genres.Add(genre);
+        await db.Genres.AddAsync(genre);
         await db.SaveChangesAsync();
         return genre;
     }
@@ -28,7 +28,7 @@ public class GameStoreSeeding
             Price = price,
             ReleaseDate = releaseDate,
         };
-        db.Games.Add(game);
+        await db.Games.AddAsync(game);
         await db.SaveChangesAsync();
         return game;
     }
