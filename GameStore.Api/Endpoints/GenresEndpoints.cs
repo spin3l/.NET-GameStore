@@ -7,21 +7,34 @@ namespace GameStore.Api.Endpoints;
 
 public static class GenresEndpoints
 {
-    private const string GenresGetEndpointName = "GetGenre";
+    private const string GetGenresEndpointName = "GetGenre";
 
     public static void MapGenresEndpoints(this WebApplication app)
     {
-        var group = app.MapGroup("/genres");
+        var group = app.MapGroup("/genres").WithTags("Genres");
 
-        group.MapGet("/", List);
+        group.MapGet("/", List).WithSummary("List Genres").WithDescription("List existing Genres.");
 
-        group.MapGet("/{id:int}", Get).WithName(GenresGetEndpointName);
+        group
+            .MapGet("/{id:int}", Get)
+            .WithName(GetGenresEndpointName)
+            .WithSummary("Get Genre")
+            .WithDescription("Find a Genre by Id.");
 
-        group.MapPost("/", Create);
+        group
+            .MapPost("/", Create)
+            .WithSummary("Create Genre")
+            .WithDescription("Create a new Genre.");
 
-        group.MapPut("/{id:int}", Update);
+        group
+            .MapPut("/{id:int}", Update)
+            .WithSummary("Update Genre")
+            .WithDescription("Update an existing Genre.");
 
-        group.MapDelete("/{id:int}", Delete);
+        group
+            .MapDelete("/{id:int}", Delete)
+            .WithSummary("Delete Genre")
+            .WithDescription("Delete an existing Genre.");
     }
 
     public static async Task<List<GenreDetailsDto>> List(GameStoreContext db) =>
@@ -44,7 +57,7 @@ public static class GenresEndpoints
 
         var details = new GenreDetailsDto(Id: genre.Id, Name: genre.Name);
 
-        return Results.CreatedAtRoute(GenresGetEndpointName, new { id = genre.Id }, details);
+        return Results.CreatedAtRoute(GetGenresEndpointName, new { id = genre.Id }, details);
     }
 
     public static async Task<IResult> Delete(GameStoreContext db, int id)

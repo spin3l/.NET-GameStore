@@ -13,15 +13,25 @@ public static class GamesEndpoints
     {
         var group = app.MapGroup("/games");
 
-        group.MapGet("/", List);
+        group.MapGet("/", List).WithSummary("List Games").WithDescription("List existing Games.");
 
-        group.MapGet("/{id:int}", Get).WithName(GetGameEndpointName);
+        group
+            .MapGet("/{id:int}", Get)
+            .WithName(GetGameEndpointName)
+            .WithSummary("Get Game")
+            .WithDescription("Find a Game by Id.");
 
-        group.MapPost("", Create);
+        group.MapPost("/", Create).WithSummary("Create Game").WithDescription("Create a new Game.");
 
-        group.MapPut("/{id:int}", Update);
+        group
+            .MapPut("/{id:int}", Update)
+            .WithSummary("Update Game")
+            .WithDescription("Update an existing Game.");
 
-        group.MapDelete("/{id:int}", Delete);
+        group
+            .MapDelete("/{id:int}", Delete)
+            .WithSummary("Delete Game")
+            .WithDescription("Delete an existing Game.");
     }
 
     public static async Task<IResult> Update(GameStoreContext db, int id, UpdateGameDto dto)

@@ -89,4 +89,4 @@ Tests spin up a fresh **in-memory SQLite database per test** and call endpoint h
 - [ ] Add `WebApplicationFactory`-based integration tests
 - [x] Add a `Genres` endpoint group + tests
 - [ ] Add centralized exception handling
-- [ ] Add OpenAPI/Swagger UI for manual exploration
+- [x] Add OpenAPI/Swagger UI for manual exploration
