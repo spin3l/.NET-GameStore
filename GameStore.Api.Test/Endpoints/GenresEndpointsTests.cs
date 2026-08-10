@@ -66,4 +66,48 @@ public class GenresEndpointsTests : GameStoreTestBase
             Assert.That(await Db.Genres.CountAsync(), Is.EqualTo(1));
         }
     }
+
+    [Test]
+    public async Task Update_NonExistingId_ReturnsNotFound()
+    {
+        var dto = new UpdateGenreDto(Name: "RPG");
+
+        var result = await GenresEndpoints.Update(Db, 999, dto);
+
+        Assert.That(result, Is.InstanceOf<NotFound>());
+    }
+
+    [Test]
+    public async Task Update_ExistingGame_StoresNewName()
+    {
+        var genre = await GameStoreSeeding.SeedGenreAsync(Db, "Platformer");
+        var dto = new UpdateGenreDto(Name: "RPG");
+
+        var result = await GenresEndpoints.Update(Db, genre.Id, dto);
+        var updated = await Db.Genres.FindAsync(genre.Id);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.InstanceOf<NoContent>());
+            Assert.That(updated, Is.Not.Null);
+            Assert.That(updated!.Name, Is.EqualTo(dto.Name));
+        }
+    }
+
+    [Test]
+    public async Task Delete_RemovesGenre()
+    {
+        var genre = await GameStoreSeeding.SeedGenreAsync(Db);
+
+        var result = await GenresEndpoints.Delete(Db, genre.Id);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.InstanceOf<NoContent>());
+            Assert.That(
+                await Db.Genres.AsNoTracking().FirstOrDefaultAsync(g => g.Id == genre.Id),
+                Is.Null
+            );
+        }
+    }
 }
