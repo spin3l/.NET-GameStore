@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "Name": "Super Mario Bros. Wonder",
-    "GenreId": 3,
+    "GenreId": 1,
     "Price": 1,
     "ReleaseDate": "2023-10-20" 
 }
@@ -31,3 +31,14 @@ DELETE http://localhost:5008/games/1
 
 ###
 GET http://localhost:5008/genres/
+
+###
+GET http://localhost:5008/genres/1
+
+###
+POST http://localhost:5008/genres
+Content-Type: application/json
+
+{
+  "name": "Platformer"
+}

@@ -45,11 +45,13 @@ public static class GamesEndpoints
             return Results.NotFound();
         }
 
-        existingGame.Name = dto.Name;
-        existingGame.GenreId = dto.GenreId;
-        existingGame.Price = dto.Price;
-        existingGame.ReleaseDate = dto.ReleaseDate;
+        // Check genre existence
+        if (!await db.Genres.AnyAsync(g => g.Id == dto.GenreId))
+        {
+            return Results.BadRequest($"Genre with id {dto.GenreId} does not exist.");
+        }
 
+        db.Entry(existingGame).CurrentValues.SetValues(dto);
         await db.SaveChangesAsync();
 
         return Results.NoContent();
@@ -71,6 +73,12 @@ public static class GamesEndpoints
             Price = dto.Price,
             ReleaseDate = dto.ReleaseDate,
         };
+
+        // Check genre existence
+        if (!await db.Genres.AnyAsync(g => g.Id == game.GenreId))
+        {
+            return Results.BadRequest($"Genre with id {game.GenreId} does not exist.");
+        }
 
         await db.AddAsync(game);
         await db.SaveChangesAsync();
