@@ -24,33 +24,37 @@ public static class GenresEndpoints
         group.MapDelete("/{id:int}", Delete);
     }
 
-    private static async Task<List<GenreDto>> List(GameStoreContext db) =>
+    public static async Task<List<GenreDetailsDto>> List(GameStoreContext db) =>
         await db
-            .Genres.Select(genre => new GenreDto(Id: genre.Id, Name: genre.Name))
+            .Genres.Select(genre => new GenreDetailsDto(Id: genre.Id, Name: genre.Name))
             .AsNoTracking()
             .ToListAsync();
 
-    private static async Task<IResult> Get(GameStoreContext db, int id) =>
-        await db.Genres.FindAsync(id) is { } game ? Results.Ok(game) : Results.NotFound();
+    public static async Task<IResult> Get(GameStoreContext db, int id) =>
+        await db.Genres.FindAsync(id) is { } game
+            ? Results.Ok(new GenreDetailsDto(Id: game.Id, Name: game.Name))
+            : Results.NotFound();
 
-    private static async Task<IResult> Create(GameStoreContext db, CreateGenreDto dto)
+    public static async Task<IResult> Create(GameStoreContext db, CreateGenreDto dto)
     {
         var genre = new Genre() { Name = dto.Name };
 
         await db.Genres.AddAsync(genre);
         await db.SaveChangesAsync();
 
-        return Results.CreatedAtRoute(GenresGetEndpointName, new { id = genre.Id }, genre);
+        var details = new GenreDetailsDto(Id: genre.Id, Name: genre.Name);
+
+        return Results.CreatedAtRoute(GenresGetEndpointName, new { id = genre.Id }, details);
     }
 
-    private static async Task<IResult> Delete(GameStoreContext db, int id)
+    public static async Task<IResult> Delete(GameStoreContext db, int id)
     {
         await db.Genres.Where(g => g.Id == id).ExecuteDeleteAsync();
 
         return Results.NoContent();
     }
 
-    private static async Task<IResult> Update(GameStoreContext db, int id, UpdateGenreDto dto)
+    public static async Task<IResult> Update(GameStoreContext db, int id, UpdateGenreDto dto)
     {
         var existing = await db.Genres.FindAsync(id);
 

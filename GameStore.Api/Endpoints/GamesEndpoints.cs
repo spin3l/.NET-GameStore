@@ -1,7 +1,6 @@
 using GameStore.Api.Data;
 using GameStore.Api.Dtos;
 using GameStore.Api.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Endpoints;
@@ -14,26 +13,15 @@ public static class GamesEndpoints
     {
         var group = app.MapGroup("/games");
 
-        group.MapGet("/", async (GameStoreContext db) => await List(db));
+        group.MapGet("/", List);
 
-        group
-            .MapGet(
-                "/{id:int}",
-                async ([FromRoute] int id, GameStoreContext db) => await Get(db, id)
-            )
-            .WithName(GetGameEndpointName);
+        group.MapGet("/{id:int}", Get).WithName(GetGameEndpointName);
 
-        group.MapPost("", async (CreateGameDto dto, GameStoreContext db) => await Create(db, dto));
+        group.MapPost("", Create);
 
-        group.MapPut(
-            "/{id:int}",
-            async (int id, UpdateGameDto dto, GameStoreContext db) => await Update(db, id, dto)
-        );
+        group.MapPut("/{id:int}", Update);
 
-        group.MapDelete(
-            "/{id:int}",
-            async ([FromRoute] int id, GameStoreContext db) => await Delete(db, id)
-        );
+        group.MapDelete("/{id:int}", Delete);
     }
 
     public static async Task<IResult> Update(GameStoreContext db, int id, UpdateGameDto dto)

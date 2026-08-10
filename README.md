@@ -56,7 +56,11 @@ GameStore/
 | POST   | `/games`       | Create a new game                |
 | PUT    | `/games/{id}`  | Update an existing game          |
 | DELETE | `/games/{id}`  | Delete a game                    |
+| GET    | `/genres`      | List all genres                  |
 | GET    | `/genres/{id}` | Get a single genre by id         |
+| POST   | `/genres`      | Create a new genre               |
+| PUT    | `/genres/{id}` | Update an existing genre         |
+| DELETE | `/genres/{id}` | Delete a genre                   |
 
 ## Running the API
 
@@ -83,7 +87,6 @@ Tests spin up a fresh **in-memory SQLite database per test** and call endpoint h
 ## Possible next steps
 
 - [ ] Add `WebApplicationFactory`-based integration tests
-- [ ] Add a `Genres` endpoint group + tests
-- [ ] Add input validation (e.g. via `FluentValidation` or data annotations)
+- [x] Add a `Genres` endpoint group + tests
 - [ ] Add centralized exception handling
 - [ ] Add OpenAPI/Swagger UI for manual exploration
