@@ -39,7 +39,7 @@ public class GenresEndpointsTests : GameStoreTestBase
         using (Assert.EnterMultipleScope())
         {
             Assert.That(okResult, Is.Not.Null);
-            Assert.That(okResult.Value!.Name, Is.EqualTo(genre.Name));
+            Assert.That(okResult!.Value!.Name, Is.EqualTo(genre.Name));
         }
     }
 
@@ -58,11 +58,12 @@ public class GenresEndpointsTests : GameStoreTestBase
 
         var result = await GenresEndpoints.Create(Db, dto);
 
-        var created = result as CreatedAtRoute<GenreDetailsDto>;
+        var okResult = result as CreatedAtRoute<GenreDetailsDto>;
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(created, Is.Not.Null);
-            Assert.That(created.Value!.Name, Is.EqualTo(dto.Name));
+            Assert.That(okResult, Is.Not.Null);
+            Assert.That(okResult!.Value, Is.Not.Null);
+            Assert.That(okResult.Value!.Name, Is.EqualTo(dto.Name));
             Assert.That(await Db.Genres.CountAsync(), Is.EqualTo(1));
         }
     }

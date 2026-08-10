@@ -34,7 +34,7 @@ public class GamesEndpointsTests : GameStoreTestBase
         using (Assert.EnterMultipleScope())
         {
             Assert.That(okResult, Is.Not.Null);
-            Assert.That(okResult.Value!.Name, Is.EqualTo(game.Name));
+            Assert.That(okResult!.Value!.Name, Is.EqualTo(game.Name));
         }
     }
 
@@ -58,6 +58,7 @@ public class GamesEndpointsTests : GameStoreTestBase
         using (Assert.EnterMultipleScope())
         {
             Assert.That(created, Is.Not.Null);
+            Assert.That(created!.Value, Is.Not.Null);
             Assert.That(created.Value!.Name, Is.EqualTo(dto.Name));
             Assert.That(await Db.Games.CountAsync(), Is.EqualTo(1));
         }
